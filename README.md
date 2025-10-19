@@ -23,15 +23,6 @@ The system simulates a cryptocurrency exchange order book that processes buy (bi
 - `MerkelMain`: Main application interface and user interaction
 - `Wallet`: Trading wallet management
 
-## Matching Algorithm
-
-The system implements a stateless batch matching algorithm:
-- Lowest ask prices are processed first
-- Highest matching bids get priority
-- Trades execute at the ask price (lowest price paid)
-- Partial order fills are supported
-- Unmatched portions remain available for future matching
-
 ## Build and Run
 
 ```bash
@@ -39,6 +30,29 @@ cd merlel/
 clang++ -std=c++20 *.cpp -o merklerex
 ./merklerex
 ```
+
+## Ask/Bid Interpretation
+Ask: I will sell.
+```csv
+Currency1/Currency2,price,amount
+ETH/BTC,0.01,0.5
+```
+This means "I have 0.5 ETH. I will sell them at 0.01 BTC each. I need 0.5 ETH (amount Currency1) in wallet."
+
+Bid: I will buy.
+```
+Currency1/Currency2,price,amount
+ETH/BTC,0.01,0.5
+```
+This means "I will buy 0.5 ETH at 0.01 BTC each, so I need 0.005 BTC in wallet (price $\times$ amount Currency2)"
+
+Trade: 0.5 ETH <-> 0.005 BTC
+
+## Workflow
+Enter bid/ask 
+-> insert order books and sort by timeframe 
+-> gotoNextTimeFrame 
+-> for each product: match asks and bids by matching algorithm, and update wallet
 
 ## Pseudo Code
 ### Tokenise Pseudo Code

@@ -2,6 +2,7 @@
 
 #include "OrderBookEntry.h"
 #include "OrderBook.h"
+#include "Wallet.h"
 #include <vector>
 
 
@@ -24,7 +25,8 @@ private:
 
     std::string currentTime;
 
-    // OrderBook orderBook{ "20200317.csv" };
-    OrderBook orderBook{ "test.csv" };
-    std::vector<OrderBookEntry> orders;
+    OrderBook orderBook{ "20200317.csv" };
+    // OrderBook orderBook{ "test.csv" }; // test matching algorithm
+
+    Wallet wallet;
 };
